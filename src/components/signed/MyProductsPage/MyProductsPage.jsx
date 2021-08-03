@@ -18,7 +18,9 @@ const MyProductsPage = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    dispatch(getMyProductsListAction({}));
+    if(!myProductsList?.length) {
+      dispatch(getMyProductsListAction({}));
+    }
   }, []);
 
   const handleAddNewProduct = useCallback(async (values) => {
@@ -34,7 +36,7 @@ const MyProductsPage = () => {
       {isLoading && <Spin/>}
       <Button onClick={() => setNewProductModal(true)} className={'add_product_btn'}>Create new product</Button>
 
-      <Table dataSource={myProductsList} columns={defaultProductTableColumns}/>
+      <Table dataSource={myProductsList} columns={defaultProductTableColumns} pagination={false}/>
 
       <Modal visible={addNewProductModalIsOpen} onCancel={() => setNewProductModal(false)} footer={null}>
         <Form onFinish={handleAddNewProduct} layout={"vertical"} form={form}>

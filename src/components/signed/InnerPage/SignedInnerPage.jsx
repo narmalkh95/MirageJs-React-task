@@ -4,7 +4,7 @@ const SignedInnerPage = ({children}) => {
   return (
     <div>
     <Navbar/>
-      {children}
+    {children}
     </div>
   )
 };

@@ -21,7 +21,7 @@ const HomePage = () => {
       {isLoading && <Spin/>}
       <p>All Products List</p>
 
-      <Table dataSource={productsList} columns={defaultProductTableColumns} />
+      <Table dataSource={productsList} columns={defaultProductTableColumns} pagination={false}/>
     </div>
   )
 };

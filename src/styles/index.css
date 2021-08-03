@@ -17,6 +17,7 @@ code {
 #root {
   height: 100%;
   width: 100%;
+  padding-top: 60px; /*navbar height*/
 }
 
 .ant-form-item-label {
