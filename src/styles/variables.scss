@@ -1,0 +1,16 @@
+$defaultBorderColor: rgba(234, 234, 234, 0.5);
+
+@mixin defaultBoxShadow {
+  box-shadow: 0 0 12px 1px $defaultBorderColor;
+}
+
+@mixin defaultShadowedDiv {
+  @include defaultBoxShadow;
+  border-radius: 16px;
+  padding: 36px;
+  border: 1px solid #f1f2f5;
+  &:hover {
+    box-shadow: 0 0 12px 1px #e3e3e3;
+  }
+}
+

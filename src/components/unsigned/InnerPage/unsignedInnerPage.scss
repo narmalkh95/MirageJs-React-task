@@ -1,0 +1,36 @@
+@import "../../../styles/variables";
+
+.unsigned_inner_page {
+  height: 100%;
+
+  .login_page, .registration_page {
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .form_div {
+      position: relative;
+      @include defaultShadowedDiv;
+      padding-bottom: 54px;
+      width: 100%;
+      height: 100%;
+
+      .navigate_text {
+        position: absolute;
+        bottom: 2px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+}
