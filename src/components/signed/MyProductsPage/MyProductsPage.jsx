@@ -1,5 +1,5 @@
 import './myProductsPage.scss';
-import {Button, Form, Input, Spin, Table} from "antd";
+import {Button, Form, Table} from "antd";
 import Modal from "antd/es/modal/Modal";
 import {useCallback, useEffect, useState} from "react";
 import InputItem from "../../ReusableComponents/InputItem/InputItem";
@@ -8,19 +8,16 @@ import {
   addProductAction,
   getMyProductsListAction
 } from "../../../store/actions/productsActions";
-import {defaultProductTableColumns} from "../../../constants/product.contants";
+import {productTableColumns} from "../../../constants/product.constants";
 
 const MyProductsPage = () => {
   const dispatch = useDispatch();
-  const products = useSelector(state => state.products);
-  const {myProductsList, isLoading} = products;
+  const myProductsList = useSelector(state => state.products.myProductsList);
   const [addNewProductModalIsOpen, setNewProductModal] = useState(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if(!myProductsList?.length) {
-      dispatch(getMyProductsListAction({}));
-    }
+    dispatch(getMyProductsListAction({}));
   }, []);
 
   const handleAddNewProduct = useCallback(async (values) => {
@@ -33,10 +30,9 @@ const MyProductsPage = () => {
 
   return (
     <div className={'my_products_main_page'}>
-      {isLoading && <Spin/>}
       <Button onClick={() => setNewProductModal(true)} className={'add_product_btn'}>Create new product</Button>
 
-      <Table dataSource={myProductsList} columns={defaultProductTableColumns} pagination={false}/>
+      <Table dataSource={myProductsList} columns={productTableColumns} pagination={false} rowKey="id"/>
 
       <Modal visible={addNewProductModalIsOpen} onCancel={() => setNewProductModal(false)} footer={null}>
         <Form onFinish={handleAddNewProduct} layout={"vertical"} form={form}>

@@ -1,4 +1,4 @@
-export const defaultProductTableColumns = [
+export const productTableColumns = [
   {
     title: 'Name',
     dataIndex: 'name',

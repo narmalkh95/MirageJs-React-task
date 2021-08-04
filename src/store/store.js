@@ -3,10 +3,12 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import authSlice from "./reducers/authReducer";
 import productsSlice from './reducers/productsReducer';
+import loaderSlice from './reducers/loadingReducer';
 
 const reducers = combineReducers({
   auth: authSlice,
-  products: productsSlice
+  products: productsSlice,
+  isLoading: loaderSlice
 });
 
 const rootReducer = (state, action) => {

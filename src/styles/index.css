@@ -31,3 +31,7 @@ code {
   z-index: 99;
   transform: translate(-50%, -50%);
 }
+
+.center {
+  text-align: center;
+}

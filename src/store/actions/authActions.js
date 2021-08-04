@@ -11,8 +11,7 @@ export const registerUserAction = createAsyncThunk(
       if (!res) {
         return thunkAPI.rejectWithValue('Error');
       }
-
-      return res
+      return thunkAPI.fulfillWithValue(res)
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
     }
@@ -23,7 +22,9 @@ export const getUserAction = createAsyncThunk(
   'auth/login',
   async (user, thunkAPI) => {
     try {
-      const res = await getUserAPI(user);
+      let res = await getUserAPI(user);
+      res = res?.data;
+
       if (!res || !res?.id) {
         localStorage.removeItem('authToken');
         return thunkAPI.rejectWithValue('Error');
@@ -39,7 +40,7 @@ export const getUserAction = createAsyncThunk(
         delete res.token;
       }
 
-      return res
+      return thunkAPI.fulfillWithValue(res)
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -56,9 +57,8 @@ export const logoutUserAction = createAsyncThunk(
         return thunkAPI.rejectWithValue('Error');
       }
 
-      thunkAPI.dispatch({type: 'DESTROY_SESSION'});
       localStorage.removeItem('authToken');
-      return res
+      return thunkAPI.dispatch({type: 'DESTROY_SESSION'});
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }

@@ -5,11 +5,11 @@ const passwordRegexpToValidate = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(
 const InputItem = ({name, label = '', required, type}) => {
   const rules = [];
 
-  const validatePassword = (rule, value, callback) => {
+  const validatePassword = (rule, value) => {
     if (value && !passwordRegexpToValidate.test(value)) {
-      return callback('Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!');
+      return Promise.reject('Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!')
     }
-    return callback();
+    return Promise.resolve();
   }
 
   if (required) {

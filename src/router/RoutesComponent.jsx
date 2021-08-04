@@ -63,35 +63,23 @@ const MainRouterComponent = () => {
       <Router>
         <Switch>
           {Routes.map(({isPrivate, unauthorized, component, path}) => {
-            return isPrivate ?
-              (
-                <PrivateRoute
-                  path={path}
-                  exact={true}
-                  key={path}
-                >
+            if (isPrivate) {
+              return (
+                <PrivateRoute path={path} exact={true} key={path}>
                   {component()}
                 </PrivateRoute>
-              ) :
-              unauthorized ?
-                (
-                  <UnauthorizedRoute
-                    path={path}
-                    exact={true}
-                    key={path}
-                  >
-                    {component()}
-                  </UnauthorizedRoute>
-                )
-                :
-                (
-                  <Route
-                    path={path}
-                    component={component}
-                    exact={true}
-                    key={path}
-                  />
-                );
+              );
+            }
+            if (unauthorized) {
+              return (
+                <UnauthorizedRoute path={path} exact={true} key={path}>
+                  {component()}
+                </UnauthorizedRoute>
+              );
+            }
+            return (
+              <Route path={path} component={component} exact={true} key={path} />
+            );
           })}
           <Route component={() => <h1>Page not found</h1>}/>
         </Switch>

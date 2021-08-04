@@ -1,24 +1,25 @@
-import {Button, Form, Input} from "antd";
+import {Button, Form} from "antd";
 import './registration.scss';
 import InputItem from "../../ReusableComponents/InputItem/InputItem";
 import paths from "../../../router/paths";
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from "react-redux";
-import {registerUserAction} from "../../../store/actions/authActions";
+import {getUserAction, registerUserAction} from "../../../store/actions/authActions";
 import {messageType, showMessage} from "../../../services/utilities";
+import {useCallback} from "react";
 
 const Registration = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onFinish = async (values) => {
+  const onFinish = useCallback(async (values) => {
     const isRegistered = await dispatch(registerUserAction(values)).unwrap();
 
     if (isRegistered) {
-      showMessage(messageType.success, 'You have registered successfully. Now please login!');
-      history.push(paths.login);
+      showMessage(messageType.success, 'You have registered successfully!');
+      dispatch(getUserAction({email: values.email, password: values.password}));
     }
-  };
+  }, []);
 
   return (
     <div className={'registration_page'}>

@@ -7,7 +7,7 @@ import {logoutUserAction} from "../../../store/actions/authActions";
 import {useCallback} from "react";
 
 const Navbar = () => {
-  const {id, email} = useSelector(state => state?.auth?.user);
+  const {id, fullName} = useSelector(state => state?.auth?.user);
   const isLogged = !!id;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className={'right_side'}>
         {isLogged ?
           <>
-            <span>Hi {email}</span>
+            <span>Hi {fullName}</span>
             <Button onClick={handleLogoutClick}>Logout</Button>
           </>
           :

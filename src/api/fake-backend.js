@@ -1,7 +1,7 @@
 import {Model, Server} from "miragejs";
 import jwt from 'jsonwebtoken';
 
-const jwtSecret = process.env.REACT_APP_JWT_Secret;
+const jwtSecret = process.env.REACT_APP_JWT_SECRET;
 const localUsers = localStorage.getItem('users');
 const initialUsers = localUsers ? JSON.parse(localUsers) : [];
 const localProducts = localStorage.getItem('products');
@@ -19,7 +19,6 @@ export function makeServer({environment = "development"} = {}) {
     seeds(server) {
       initialUsers?.map(user => server.create("user", user));
       initialProductsArr?.map(product => server.create("product", product));
-      // server.create("user", {fullName: "Test", email: 'test@test.com', password: jwt.sign('MyPassword12#', jwtSecret)})
     },
 
     routes() {
@@ -40,7 +39,7 @@ export function makeServer({environment = "development"} = {}) {
         }
 
         const jwtPassword = jwt.sign(password, jwtSecret);
-        schema.db.users.insert({email, password: jwtPassword});
+        schema.db.users.insert({email, password: jwtPassword, fullName});
 
         localStorage.setItem('users', JSON.stringify(schema.users.all().models?.map(model => model.attrs)))
         return {success: true}
@@ -55,8 +54,8 @@ export function makeServer({environment = "development"} = {}) {
           const loggedUser = schema.users.findBy({authToken: token});
 
           if (loggedUser) {
-            const {email, id} = loggedUser.attrs;
-            return {id: Number(id), email}
+            const {email, id, fullName} = loggedUser.attrs;
+            return {success: true, data: {id: Number(id), email, fullName}}
           }
         } else {
           if (!password || !email) {
@@ -75,7 +74,7 @@ export function makeServer({environment = "development"} = {}) {
 
               localStorage.setItem('users', JSON.stringify(schema.users.all().models?.map(model => model.attrs)))
 
-              return {success: true, token: authToken, id: Number(registeredUser.id), email: registeredUser.email}
+              return {success: true, data: {token: authToken, id: Number(registeredUser.id), email: registeredUser.email, fullName: registeredUser.fullName}}
             }
           }
         }
